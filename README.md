@@ -9,6 +9,10 @@ Final-year graduation project · React Native (Expo) · ASP.NET Core · SQL Serv
 </div>
 
 ---
+## 🎥 Project Demo
+Watch our promotional video to see the application in action:
+[PartnersApp - Promotional Video](https://www.youtube.com/watch?v=xWfUXMGiqBE)
+[![Watch the video](https://img.youtube.com/vi/xWfUXMGiqBE/0.jpg)](https://www.youtube.com/watch?v=xWfUXMGiqBE)
 
 ## Table of Contents
 
