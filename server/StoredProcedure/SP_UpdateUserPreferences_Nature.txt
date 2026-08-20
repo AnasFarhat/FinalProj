@@ -1,0 +1,33 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<>
+-- Create date: <2026-04-09>
+-- Description:	<עדכון העדפות ופרטי פרופיל של משתמש קיים>
+-- =============================================
+CREATE PROCEDURE SP_UpdateUserPreferences_Nature
+	@id INT,
+	@name NVARCHAR(100) = NULL,
+	@img NVARCHAR(MAX) = NULL,
+	@pref NVARCHAR(MAX) = NULL,
+	@fam NVARCHAR(50) = NULL,
+	@city NVARCHAR(100) = NULL,
+	@birth DATETIME = NULL
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	UPDATE Users_Nature 
+	SET FullName = @name, 
+	    ImageUrl = @img, 
+	    Preferences = @pref, 
+	    FamilyStatus = @fam, 
+	    City = @city, 
+	    BirthDate = @birth
+	WHERE UserId = @id;
+
+
+END
+GO

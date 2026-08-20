@@ -1,0 +1,29 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<>
+-- Create date: <2026-04-09>
+-- Description:	<שליפת היסטוריית משובים של משתמש כולל שמות הטיולים>
+-- =============================================
+CREATE PROCEDURE SP_GetFeedbackHistoryByUserId_Nature
+	@UserId INT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT f.FeedbackId, 
+	       f.TripId, 
+	       f.GuideRating, 
+	       f.TrackRating, 
+	       f.[FreeText], 
+	       f.CreatedAt, 
+	       f.VoiceFilePath, 
+	       t.Title AS TripTitle
+	FROM Feedbacks_Nature f
+	JOIN Trips_Nature t ON f.TripId = t.TripId
+	WHERE f.UserId = @UserId
+	ORDER BY f.CreatedAt DESC;
+END
+GO

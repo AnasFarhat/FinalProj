@@ -1,0 +1,45 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<>
+-- Create date: <2026-04-09>
+-- Description:	<יצירת פוסט חדש כולל שמירת תמונות מרובות בטרנזקציה אחת בשרת>
+-- =============================================
+CREATE PROCEDURE SP_CreatePostWithImages_Nature
+	@UserId INT,
+	@Content NVARCHAR(MAX),
+	@TripId INT = NULL,
+	@ImageUrlsConcat NVARCHAR(MAX) -- מחרוזת של URLים מופרדת בפסיקים
+AS
+BEGIN
+	SET NOCOUNT ON;
+	BEGIN TRANSACTION;
+
+	BEGIN TRY
+		-- 1. הכנסת הפוסט ושמירת ה-ID שלו
+		DECLARE @NewPostId INT;
+		
+		INSERT INTO Posts_Nature (UserId, Content, TripId, IsHidden, IsReported, CreatedAt)
+		VALUES (@UserId, @Content, @TripId, 0, 0, GETDATE());
+		
+		SET @NewPostId = SCOPE_IDENTITY();
+
+		-- 2. הכנסת התמונות (רק אם נשלחו)
+		IF @ImageUrlsConcat IS NOT NULL AND LEN(@ImageUrlsConcat) > 0
+		BEGIN
+			INSERT INTO PostImages_Nature (PostId, ImageUrl)
+			SELECT @NewPostId, value
+			FROM STRING_SPLIT(@ImageUrlsConcat, ',');
+		END
+
+		COMMIT TRANSACTION;
+		SELECT @NewPostId AS PostId;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRANSACTION;
+		THROW;
+	END CATCH
+END
+GO

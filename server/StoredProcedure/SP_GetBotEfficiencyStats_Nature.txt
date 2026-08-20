@@ -1,0 +1,33 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author		
+-- Create date 2026-04-09
+-- Description	חישוב מדדי יעילות הבוט - אחוז מענה אוטומטי מול פניות משתמשים
+-- =============================================
+CREATE PROCEDURE SP_GetBotEfficiencyStats_Nature
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @TotalQueries INT, @BotResponses INT;
+
+	-- חישוב הכמויות
+	SELECT 
+		@TotalQueries = SUM(CASE WHEN Sender = 'User' THEN 1 ELSE 0 END),
+		@BotResponses = SUM(CASE WHEN Sender = 'Bot' THEN 1 ELSE 0 END)
+	FROM ChatInteractions_Nature;
+
+	-- החזרת הנתונים כולל חישוב האחוז (טיפול בחלוקה באפס)
+	SELECT 
+		ISNULL(@TotalQueries, 0) AS TotalQuestions,
+		ISNULL(@BotResponses, 0) AS SolvedByAI,
+		CAST(CASE 
+			WHEN ISNULL(@TotalQueries, 0)  0 
+			THEN (CAST(ISNULL(@BotResponses, 0) AS FLOAT)  @TotalQueries)  100 
+			ELSE 0 
+		END AS DECIMAL(10, 1)) AS EfficiencyPercent;
+END
+GO

@@ -1,0 +1,21 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Roaa>
+-- Create date: <2026-04-09>
+-- Description:	<שליפת פרופיל משתמש מלא לפי מזהה ייחודי>
+-- =============================================
+CREATE PROCEDURE SP_GetUserProfile_Nature
+	-- הוספת הפרמטר למזהה המשתמש
+	@UserId INT
+AS
+BEGIN
+	-- מניעת רעש של הודעות מערכת
+	SET NOCOUNT ON;
+
+    -- שליפת כל השדות עבור המשתמש הספציפי
+	SELECT * FROM Users_Nature WHERE UserId = @UserId
+END
+GO

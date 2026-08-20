@@ -1,0 +1,24 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<>
+-- Create date: <2026-04-09>
+-- Description:	<שליפת דיווחים על תוכן פוגעני כולל פרטי הפוסט והמדווח>
+-- =============================================
+CREATE PROCEDURE SP_GetGroupedReports_Nature
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT 
+		p.PostId, p.Content AS PostContent, u.FullName AS PostAuthor, p.IsHidden,
+		r.ReasonCategory, r.CustomReason, r.CreatedAt, ru.FullName AS ReporterName
+	FROM Posts_Nature p
+	JOIN Users_Nature u ON p.UserId = u.UserId
+	JOIN Reports_Nature r ON p.PostId = r.PostId
+	JOIN Users_Nature ru ON r.UserId = ru.UserId
+	ORDER BY p.PostId, r.CreatedAt DESC;
+END
+GO

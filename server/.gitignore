@@ -1,0 +1,28 @@
+# Project Secrets and Local Configurations
+firebase-service-account.json
+"Users Password.txt"
+serverfiles.txt
+SQL.txt
+appsettings.Development.json
+
+# Build and Publish Folders
+[Bb]in/
+[Oo]bj/
+amd64/
+x86/
+runtimes/
+Publish/
+out/
+
+# Visual Studio Cache and Settings
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs and Temp Files
+*.log
+*.cache
+TestResults/

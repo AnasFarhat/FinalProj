@@ -1,0 +1,21 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<>
+-- Create date: <2026-04-09>
+-- Description:	<שליפת מדדי ביצוע מרכזיים - KPIs עבור מערכת Nature>
+-- =============================================
+CREATE PROCEDURE SP_GetGeneralKPIs_Nature
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT 
+		ISNULL((SELECT COUNT(*) FROM Users_Nature), 0) AS TotalUsers,
+		ISNULL((SELECT CAST(AVG(CAST((GuideRating + TrackRating) / 2.0 AS FLOAT)) AS DECIMAL(10,2)) 
+				FROM Feedbacks_Nature), 0) AS AvgSatisfaction,
+		ISNULL((SELECT COUNT(DISTINCT UserId) FROM UserTrips_Nature), 0) AS ActiveHikers;
+END
+GO

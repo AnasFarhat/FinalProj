@@ -1,0 +1,11 @@
+CREATE PROCEDURE SP_GetUserSessions_Nature
+    @UserId INT
+AS
+BEGIN
+    SELECT SessionId, MIN(CreatedAt) as StartDate 
+    FROM Chatbot_Nature 
+    WHERE UserId = @UserId 
+    GROUP BY SessionId 
+    ORDER BY StartDate DESC;
+END;
+GO

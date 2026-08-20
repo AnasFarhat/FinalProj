@@ -1,0 +1,12 @@
+CREATE PROCEDURE SP_SaveChat_Nature
+    @UserId INT,
+    @Message NVARCHAR(MAX),
+    @Response NVARCHAR(MAX),
+    @Intent NVARCHAR(50),
+    @SessionId NVARCHAR(100)
+AS
+BEGIN
+    INSERT INTO Chatbot_Nature (UserId, Message, Response, Intent, WasHandledByBot, CreatedAt, SessionId)
+    VALUES (@UserId, @Message, @Response, @Intent, 1, GETDATE(), @SessionId);
+END;
+GO

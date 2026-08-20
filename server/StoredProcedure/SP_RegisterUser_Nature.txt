@@ -1,0 +1,26 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Roaa>
+-- Create date: <2026-04-09>
+-- Description:	<רישום משתמש חדש - תואם בדיוק לקוד הקיים>
+-- =============================================
+CREATE PROCEDURE SP_RegisterUser_Nature
+	@name NVARCHAR(100),
+	@email NVARCHAR(100),
+	@pass NVARCHAR(MAX),
+	@dob DATETIME = NULL,
+	@city NVARCHAR(100) = NULL,
+	@family NVARCHAR(50) = NULL
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	INSERT INTO Users_Nature (FullName, Email, Password, BirthDate, City, FamilyStatus, Points, IsPartner, IsBlocked)
+	VALUES (@name, @email, @pass, @dob, @city, @family, 0, 0, 0);
+
+
+END
+GO

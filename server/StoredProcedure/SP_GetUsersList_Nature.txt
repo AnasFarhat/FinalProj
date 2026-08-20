@@ -1,0 +1,18 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<>
+-- Create date: <2026-04-09>
+-- Description:	<שליפת רשימת המשתמשים המלאה לניהול מערכת>
+-- =============================================
+CREATE PROCEDURE SP_GetUsersList_Nature
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT UserId, FullName, Email, ISNULL(IsBlocked, 0) AS IsBlocked
+	FROM Users_Nature;
+END
+GO

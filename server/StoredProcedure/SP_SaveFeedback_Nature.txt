@@ -1,0 +1,53 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<>
+-- Create date: <2026-04-09>
+-- Description:	<שמירת משוב ועדכון דירוג משתמש בטיול תחת טרנזקציה אחת>
+-- =============================================
+CREATE PROCEDURE SP_SaveFeedback_Nature
+	@UserId INT,
+	@TripId INT,
+	@GuideRating INT,
+	@TrackRating INT,
+	@FreeText NVARCHAR(MAX),
+	@SentimentStatus NVARCHAR(50),
+	@GoodTags NVARCHAR(MAX),
+	@BadTags NVARCHAR(MAX),
+	@VoicePath NVARCHAR(MAX),
+	@AvgRating FLOAT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	BEGIN TRANSACTION;
+
+	BEGIN TRY
+		-- 1. הכנסת נתוני המשוב
+		INSERT INTO Feedbacks_Nature 
+		(UserId, TripId, GuideRating, TrackRating, [FreeText], SentimentStatus, GoodTags, BadTags, VoiceFilePath, CreatedAt) 
+		VALUES 
+		(@UserId, @TripId, @GuideRating, @TrackRating, @FreeText, @SentimentStatus, @GoodTags, @BadTags, @VoicePath, GETDATE());
+
+		-- 2. עדכון הדירוג המשוקלל בטבלת הקשר
+		UPDATE UserTrips_Nature 
+		SET Rating = ROUND(@AvgRating, 0) 
+		WHERE UserId = @UserId AND TripId = @TripId;
+
+		-- אם הכל עבר בשלום - בצע שמירה (Commit)
+		COMMIT TRANSACTION;
+		
+	END TRY
+	BEGIN CATCH
+		-- במקרה של תקלה - בטל הכל (Rollback)
+		ROLLBACK TRANSACTION;
+		
+		-- החזרת פרטי השגיאה לצורך דיבוג ב-C#
+		DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+		RAISERROR (@ErrorMessage, 16, 1);
+		SELECT 0 AS Success;
+	END CATCH
+END
+GO

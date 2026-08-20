@@ -1,0 +1,21 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<>
+-- Create date: <2026-04-09>
+-- Description:	<שליפת כל ההתראות עבור משתמש ספציפי בסדר כרונולוגי יורד>
+-- =============================================
+CREATE PROCEDURE SP_GetNotificationsByUserId_Nature
+	@UserId INT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT Id, Title, Message, IsRead, CreatedAt 
+	FROM Notifications_Nature 
+	WHERE UserId = @UserId 
+	ORDER BY CreatedAt DESC;
+END
+GO

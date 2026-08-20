@@ -1,0 +1,22 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<>
+-- Create date: <2026-04-09>
+-- Description:	<שינוי סטטוס נראות של פוסט (הסתרה/חשיפה)>
+-- =============================================
+CREATE PROCEDURE SP_TogglePostVisibility_Nature
+	@PostId INT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	UPDATE Posts_Nature 
+	SET IsHidden = CASE WHEN ISNULL(IsHidden, 0) = 1 THEN 0 ELSE 1 END 
+	WHERE PostId = @PostId;
+
+
+END
+GO

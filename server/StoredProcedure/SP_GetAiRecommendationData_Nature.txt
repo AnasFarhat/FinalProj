@@ -1,0 +1,49 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<>
+-- Create date: <2026-04-09>
+-- Description:	<איסוף נתונים מקיף עבור מנוע ההמלצות v3>
+-- =============================================
+CREATE PROCEDURE SP_GetAiRecommendationData_Nature
+	@UserId INT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	-- 1. נתונים דמוגרפיים וספירה כללית
+	SELECT 
+		ISNULL(DATEDIFF(YEAR, BirthDate, GETDATE()), 18) AS Age,
+		ISNULL(City, '') AS City,
+		(SELECT COUNT(*) FROM UserTrips_Nature WHERE UserId = u.UserId) AS TotalTrips
+	FROM Users_Nature u WHERE UserId = @UserId;
+
+	-- 2. היסטוריית דירוגים (Explicit Feedback)
+	SELECT t.Category, t.Difficulty, ut.Rating
+	FROM Trips_Nature t
+	INNER JOIN UserTrips_Nature ut ON t.TripId = ut.TripId
+	WHERE ut.UserId = @UserId AND ut.Rating IS NOT NULL;
+
+	-- 3. אינטראקציה חברתית (Implicit Feedback)
+	SELECT t.Category, t.Difficulty,
+		   SUM(CASE WHEN pl.UserId IS NOT NULL THEN 2 WHEN c.UserId IS NOT NULL THEN 3 ELSE 0 END) AS SocialScore
+	FROM Posts_Nature p
+	INNER JOIN Trips_Nature t ON p.TripId = t.TripId
+	LEFT JOIN PostLikes_Nature pl ON pl.PostId = p.PostId AND pl.UserId = @UserId
+	LEFT JOIN PostComments_Nature c ON c.PostId = p.PostId AND c.UserId = @UserId
+	WHERE (pl.UserId IS NOT NULL OR c.UserId IS NOT NULL)
+	GROUP BY t.Category, t.Difficulty;
+
+	-- 4. מאגר מועמדים (Candidates)
+	DECLARE @UserAge INT = (SELECT ISNULL(DATEDIFF(YEAR, BirthDate, GETDATE()), 18) FROM Users_Nature WHERE UserId = @UserId);
+	
+	SELECT t.*, ISNULL(t.Location, '') AS CityName
+	FROM Trips_Nature t
+	WHERE (t.MinAge IS NULL OR t.MinAge <= @UserAge)
+	AND t.TripId NOT IN (SELECT TripId FROM UserTrips_Nature WHERE UserId = @UserId)
+	AND t.TripDate >= GETDATE()
+	ORDER BY t.TripDate ASC;
+END
+GO

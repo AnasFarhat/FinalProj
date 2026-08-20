@@ -1,0 +1,23 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<>
+-- Create date: <2026-04-09>
+-- Description:	<שינוי מצב חסימה של משתמש - חסימה או שחרור>
+-- =============================================
+CREATE PROCEDURE SP_ToggleUserBlock_Nature
+	@UserId INT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	UPDATE Users_Nature 
+	SET IsBlocked = CASE WHEN ISNULL(IsBlocked, 0) = 1 THEN 0 ELSE 1 END 
+	WHERE UserId = @UserId;
+
+	-- מחזיר 1 אם המשתמש נמצא ועודכן
+	SELECT @@ROWCOUNT;
+END
+GO

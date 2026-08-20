@@ -1,0 +1,21 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<>
+-- Create date: <2026-04-09>
+-- Description:	<מחיקת תגובה ספציפית מטבלת PostComments_Nature>
+-- =============================================
+CREATE PROCEDURE SP_DeleteComment_Nature
+	@CommentId INT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	DELETE FROM PostComments_Nature 
+	WHERE CommentId = @CommentId;
+
+
+END
+GO

@@ -1,0 +1,15 @@
+ALTER PROCEDURE SP_AddComment_Nature
+	@PostId INT,
+	@UserId INT,
+	@Content NVARCHAR(MAX)
+AS
+BEGIN
+	-- משנים ל-OFF כדי ש-C#  כמה שורות נוספו
+	SET NOCOUNT OFF;
+
+	INSERT INTO PostComments_Nature (PostId, UserId, CommentText, CreatedAt)
+	VALUES (@PostId, @UserId, @Content, GETDATE());
+
+	-- הסרנו את ה-SELECT @@ROWCOUNT;
+END
+GO

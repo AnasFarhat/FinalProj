@@ -1,0 +1,19 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<>
+-- Create date: <2026-04-09>
+-- Description:	<שליפת פרטי טיול מלאים לפי מזהה ייחודי>
+-- =============================================
+CREATE PROCEDURE SP_GetTripById_Nature
+	@TripId INT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT * FROM Trips_Nature 
+	WHERE TripId = @TripId;
+END
+GO

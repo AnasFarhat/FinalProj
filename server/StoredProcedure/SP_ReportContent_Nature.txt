@@ -1,0 +1,25 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<>
+-- Create date: <2026-04-09>
+-- Description:	<יצירת דיווח חדש על תוכן פוגעני - פוסט או תגובה>
+-- =============================================
+CREATE PROCEDURE SP_ReportContent_Nature
+	@PostId INT = NULL,
+	@CommentId INT = NULL,
+	@UserId INT,
+	@ReasonCategory NVARCHAR(100),
+	@CustomReason NVARCHAR(MAX) = NULL
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	INSERT INTO Reports_Nature (PostId, CommentId, UserId, ReasonCategory, CustomReason, CreatedAt)
+	VALUES (@PostId, @CommentId, @UserId, @ReasonCategory, @CustomReason, GETDATE());
+
+
+END
+GO

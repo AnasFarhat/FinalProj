@@ -1,0 +1,21 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<>
+-- Create date: <2026-04-09>
+-- Description:	<סיכום התפלגות הסנטימנט מכלל המשובים לצורך הצגת גרפים>
+-- =============================================
+CREATE PROCEDURE SP_GetSentimentSummary_Nature
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT 
+		ISNULL(SentimentStatus, 'Unknown') AS SentimentStatus, 
+		COUNT(*) AS Count 
+	FROM Feedbacks_Nature 
+	GROUP BY SentimentStatus;
+END
+GO

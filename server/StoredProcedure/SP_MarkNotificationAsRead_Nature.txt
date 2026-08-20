@@ -1,0 +1,22 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<>
+-- Create date: <2026-04-09>
+-- Description:	<עדכון סטטוס התראה ל"נקראה" (IsRead = 1)>
+-- =============================================
+CREATE PROCEDURE SP_MarkNotificationAsRead_Nature
+	@Id INT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	UPDATE Notifications_Nature 
+	SET IsRead = 1 
+	WHERE Id = @Id;
+
+	
+END
+GO

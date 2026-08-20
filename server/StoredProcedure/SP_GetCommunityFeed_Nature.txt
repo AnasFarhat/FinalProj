@@ -1,0 +1,36 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<>
+-- Create date: <2026-04-09>
+-- Description:	<שליפת פיד הקהילה המלא: פוסטים, תמונות ותגובות במכה אחת>
+-- =============================================
+CREATE PROCEDURE SP_GetCommunityFeed_Nature
+	@UserId INT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	-- 1. שליפת כל התגובות (בשביל ה-commentsDict)
+	SELECT c.PostId, c.UserId, c.CommentId, c.CommentText, c.CreatedAt, u.FullName AS AuthorName, u.ImageUrl AS AuthorPic
+	FROM PostComments_Nature c 
+	JOIN Users_Nature u ON c.UserId = u.UserId 
+	ORDER BY c.CreatedAt ASC;
+
+	-- 2. שליפת כל התמונות (בשביל ה-imagesDict)
+	SELECT PostId, ImageUrl FROM PostImages_Nature;
+
+	-- 3. שליפת הפוסטים עצמם
+	SELECT p.*, u.FullName, u.ImageUrl, t.Title AS TripTitle,
+	      (SELECT COUNT(*) FROM PostLikes_Nature WHERE PostId = p.PostId) AS LikesCount,
+	      CAST(CASE WHEN EXISTS(SELECT 1 FROM PostLikes_Nature WHERE PostId = p.PostId AND UserId = @UserId) 
+	           THEN 1 ELSE 0 END AS BIT) AS IsLikedByCurrentUser
+	FROM Posts_Nature p 
+	JOIN Users_Nature u ON p.UserId = u.UserId 
+	LEFT JOIN Trips_Nature t ON p.TripId = t.TripId
+	WHERE p.IsHidden = 0 
+	ORDER BY p.CreatedAt DESC;
+END
+GO

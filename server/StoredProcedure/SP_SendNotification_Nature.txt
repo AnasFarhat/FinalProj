@@ -1,0 +1,37 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<>
+-- Create date: <2026-04-09>
+-- Description:	<מנגנון שליחת התראות חכם - תומך בשליחה ממוקדת לטיול או לכלל המערכת>
+-- =============================================
+CREATE PROCEDURE SP_SendNotification_Nature
+	@Title NVARCHAR(200),
+	@Message NVARCHAR(MAX),
+	@Type NVARCHAR(50),
+	@TripId INT = NULL
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	-- בדיקה האם מדובר בהתראה ממוקדת לטיול
+	IF (@TripId IS NOT NULL AND @TripId > 0)
+	BEGIN
+		INSERT INTO Notifications_Nature (UserId, TripId, Title, Message, Type, CreatedAt, IsRead)
+		SELECT DISTINCT UserId, @TripId, @Title, @Message, @Type, GETDATE(), 0
+		FROM UserTrips_Nature 
+		WHERE TripId = @TripId;
+	END
+	ELSE
+	BEGIN
+		-- שליחה גורפת לכל המשתמשים
+		INSERT INTO Notifications_Nature (UserId, TripId, Title, Message, Type, CreatedAt, IsRead)
+		SELECT UserId, NULL, @Title, @Message, @Type, GETDATE(), 0
+		FROM Users_Nature;
+	END
+
+
+END
+GO

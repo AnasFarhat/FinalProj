@@ -1,0 +1,11 @@
+CREATE PROCEDURE SP_GetChatHistoryBySession_Nature
+    @UserId INT,
+    @SessionId NVARCHAR(100)
+AS
+BEGIN
+    SELECT Id, Message, Response, CreatedAt 
+    FROM Chatbot_Nature 
+    WHERE UserId = @UserId AND SessionId = @SessionId 
+    ORDER BY CreatedAt ASC;
+END;
+GO

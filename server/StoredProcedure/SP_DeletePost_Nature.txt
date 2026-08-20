@@ -1,0 +1,40 @@
+ALTER PROCEDURE SP_DeletePost_Nature
+    @PostId INT,
+    @UserId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- 1. בדיקת קיום ובעלות
+    DECLARE @ActualOwnerId INT;
+    SELECT @ActualOwnerId = UserId FROM Posts_Nature WHERE PostId = @PostId;
+
+    IF @ActualOwnerId IS NULL RETURN 404; 
+    IF @ActualOwnerId <> @UserId RETURN 401; 
+
+    -- 2. ביצוע המחיקה
+    BEGIN TRY
+        BEGIN TRANSACTION;
+            
+            -- בדיקה: האם יש טבלה נוספת? למשל "Reports_Nature" או "PostTags"?
+            -- אם פוסט דווח, אי אפשר למחוק אותו בלי למחוק את הדיווחים עליו קודם!
+            DELETE FROM Reports_Nature WHERE PostId = @PostId; 
+            DELETE FROM PostImages_Nature WHERE PostId = @PostId;
+            DELETE FROM PostLikes_Nature WHERE PostId = @PostId;
+            DELETE FROM PostComments_Nature WHERE PostId = @PostId;
+            DELETE FROM Posts_Nature WHERE PostId = @PostId;
+
+        COMMIT TRANSACTION;
+        RETURN 200; 
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION;
+        
+        -- הדפסת השגיאה ל-Messages ב-SQL כדי שתוכלי לראות אותה ב-SSMS
+        DECLARE @Err NVARCHAR(MAX) = ERROR_MESSAGE();
+        PRINT @Err; 
+        
+        RETURN 500; 
+    END CATCH
+END
+GO

@@ -1,0 +1,24 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<>
+-- Create date: <2026-04-09>
+-- Description:	<שליפת נתוני RSVP - השוואה בין נרשמים למגיעים בפועל לטיולי עבר>
+-- =============================================
+CREATE PROCEDURE SP_GetAttendanceStats_Nature
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT t.Title, 
+		   COUNT(ut.UserId) AS RegisteredCount,
+		   SUM(CASE WHEN ut.Status = N'הסתיים' THEN 1 ELSE 0 END) AS ArrivedCount
+	FROM Trips_Nature t
+	LEFT JOIN UserTrips_Nature ut ON t.TripId = ut.TripId
+	WHERE t.TripDate < GETDATE() 
+	GROUP BY t.Title, t.TripDate
+	ORDER BY t.TripDate DESC;
+END
+GO

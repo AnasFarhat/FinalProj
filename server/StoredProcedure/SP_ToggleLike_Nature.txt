@@ -1,0 +1,30 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<>
+-- Create date: <2026-04-09>
+-- Description:	<ביצוע Toggle ללייק - הוספה או הסרה בפעולה אחת אטומית>
+-- =============================================
+CREATE PROCEDURE SP_ToggleLike_Nature
+	@PostId INT,
+	@UserId INT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	IF EXISTS (SELECT 1 FROM PostLikes_Nature WHERE PostId = @PostId AND UserId = @UserId)
+	BEGIN
+		-- אם קיים - הסר
+		DELETE FROM PostLikes_Nature WHERE PostId = @PostId AND UserId = @UserId;
+		SELECT 'Like removed' AS Result;
+	END
+	ELSE
+	BEGIN
+		-- אם לא קיים - הוסף
+		INSERT INTO PostLikes_Nature (PostId, UserId) VALUES (@PostId, @UserId);
+		SELECT 'Like added' AS Result;
+	END
+END
+GO

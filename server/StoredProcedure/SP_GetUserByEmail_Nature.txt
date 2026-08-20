@@ -1,0 +1,21 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Roaa>
+-- Create date: <2026-04-09>
+-- Description:	<שליפת פרטי משתמש לפי אימייל לצורך התחברות>
+-- =============================================
+CREATE PROCEDURE SP_GetUserByEmail_Nature 
+	-- הוספת הפרמטר לאימייל
+	@Email NVARCHAR(100)
+AS
+BEGIN
+	-- מונע שליחת הודעות "X rows affected" שעלולות להפריע לקוד ב-C#
+	SET NOCOUNT ON;
+
+    -- השאילתה לשליפת המשתמש
+	SELECT * FROM Users_Nature WHERE Email = @Email
+END
+GO

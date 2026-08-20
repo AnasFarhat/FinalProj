@@ -1,0 +1,49 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<>
+-- Create date: <2026-04-09>
+-- Description:	<עדכון פרטי טיול קיימים בטבלת Trips_Nature>
+-- =============================================
+CREATE PROCEDURE SP_UpdateTrip_Nature
+	@Id INT,
+	@Title NVARCHAR(200),
+	@Category NVARCHAR(100),
+	@TripDate DATETIME,
+	@ImageUrl NVARCHAR(MAX) = NULL,
+	@Location NVARCHAR(200),
+	@Description NVARCHAR(MAX) = NULL,
+	@Subtitle NVARCHAR(MAX) = NULL,
+	@About NVARCHAR(MAX) = NULL,
+	@TargetAudience NVARCHAR(MAX) = NULL,
+	@Difficulty NVARCHAR(50) = NULL,
+	@WalkDetails NVARCHAR(MAX) = NULL,
+	@RouteLength NVARCHAR(50) = NULL,
+	@Equipment NVARCHAR(MAX) = NULL,
+	@Guide NVARCHAR(100) = NULL
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	UPDATE Trips_Nature 
+	SET Title = @Title, 
+	    Category = @Category, 
+	    TripDate = @TripDate, 
+	    ImageUrl = @ImageUrl,
+	    Location = @Location, 
+	    Description = @Description, 
+	    Subtitle = @Subtitle, 
+	    About = @About,
+	    TargetAudience = @TargetAudience, 
+	    Difficulty = @Difficulty, 
+	    WalkDetails = @WalkDetails,
+	    RouteLength = @RouteLength, 
+	    Equipment = @Equipment, 
+	    Guide = @Guide
+	WHERE TripId = @Id;
+
+	
+END
+GO

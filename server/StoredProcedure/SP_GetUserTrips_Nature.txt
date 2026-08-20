@@ -1,0 +1,21 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<>
+-- Create date: <2026-04-09>
+-- Description:	<שליפת רשימת הטיולים אליהם רשום המשתמש כולל דירוג אישי>
+-- =============================================
+CREATE PROCEDURE SP_GetUserTrips_Nature
+	@UserId INT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT t.*, ut.Rating 
+	FROM Trips_Nature t
+	INNER JOIN UserTrips_Nature ut ON t.TripId = ut.TripId
+	WHERE ut.UserId = @UserId;
+END
+GO
