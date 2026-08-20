@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./assets/images/icon.png" alt="PartnersApp Logo" width="130" style="border-radius: 50%; border: 3px solid #2d6a4f;" />
+<img src="./assets/images/icon.png" alt="PartnersApp Logo" width="130" />
 
 # 🥾 PartnersApp — שותפים לדרך
 
@@ -24,35 +24,6 @@ A social hiking platform built for the **Society for the Protection of Nature in
 [![Platform](https://img.shields.io/badge/Platform-iOS_|_Android_|_Web-lightgrey?style=flat-square)]()
 [![RTL](https://img.shields.io/badge/UI-Hebrew_RTL-1e8425?style=flat-square)]()
 
-<br/>
-
-### 🎬 **[Watch the Demo](https://www.youtube.com/watch?v=xWfUXMGiqBE)** &nbsp;·&nbsp; 📄 **[View the Poster](./docs/poster.pdf)**
-
-</div>
-
----
-
-<div align="center">
-
-## 🎥 Video Demo
-
-<a href="https://www.youtube.com/watch?v=xWfUXMGiqBE" target="_blank">
-  <img src="https://img.youtube.com/vi/xWfUXMGiqBE/maxresdefault.jpg" alt="PartnersApp — Video Demo" width="720" />
-</a>
-
-**▶️ [Click to watch the full walkthrough on YouTube](https://www.youtube.com/watch?v=xWfUXMGiqBE)**
-
-*A complete tour: registration → smart matching → live proximity map → community feed → AI chatbot → admin dashboard.*
-
-<br/>
-
-## 📄 Project Poster
-
-[![Download Poster](https://img.shields.io/badge/📄_Project_Poster-View_or_Download_PDF-EA4335?style=for-the-badge)](./docs/poster.pdf)
-
-The academic poster summarizing the problem, solution, architecture, and results
-is available at [`./docs/poster.pdf`](./docs/poster.pdf).
-
 </div>
 
 ---
@@ -61,9 +32,30 @@ is available at [`./docs/poster.pdf`](./docs/poster.pdf).
 
 | | | |
 |---|---|---|
-| [🌿 About The Project](#-about-the-project) | [✨ Key Features](#-key-features) | [🛠️ Tech Stack](#️-tech-stack) |
-| [🏗️ Project Architecture](#️-project-architecture) | [🚀 Getting Started](#-getting-started--installation) | [🔐 Security Notice](#-security-notice--required-manual-configuration) |
-| [🔌 API Overview](#-api-overview) | [👥 Authors](#-authors) | [📄 License](#-license) |
+| [🎬 Demo & Poster](#-demo--poster) | [🌿 About The Project](#-about-the-project) | [✨ Key Features](#-key-features) |
+| [🛠️ Tech Stack](#️-tech-stack) | [🏗️ Project Architecture](#️-project-architecture) | [🚀 Getting Started](#-getting-started--installation) |
+| [🔐 Security Notice](#-security-notice--required-manual-configuration) | [🔌 API Overview](#-api-overview) | [👥 Authors & Partners](#-authors--partners) |
+
+---
+
+## 🎬 Demo & Poster
+
+<div align="center">
+
+<a href="https://www.youtube.com/watch?v=xWfUXMGiqBE" target="_blank">
+  <img src="https://img.youtube.com/vi/xWfUXMGiqBE/maxresdefault.jpg" alt="PartnersApp — Video Demo" width="720" />
+</a>
+
+*A complete walkthrough: registration → smart matching → live proximity map → community feed → AI chatbot → admin dashboard.*
+
+<br/>
+
+[![Watch the Demo](https://img.shields.io/badge/▶_Watch_the_Demo-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/watch?v=xWfUXMGiqBE)
+[![Project Poster](https://img.shields.io/badge/📄_Project_Poster-PDF-EA4335?style=for-the-badge)](./docs/poster.pdf)
+
+The academic poster — problem, solution, architecture, and results — is available at [`./docs/poster.pdf`](./docs/poster.pdf).
+
+</div>
 
 ---
 
@@ -449,7 +441,7 @@ w   # → Web browser
 
 ---
 
-### 🔴 4.1 `Backend/appsettings.Development.json`
+### 🔴 `Backend/appsettings.Development.json`
 
 <details open>
 <summary><b>Click to expand the template</b></summary>
@@ -493,7 +485,7 @@ dotnet user-secrets set "AI:GeminiApiKey" "your-gemini-key"
 
 ---
 
-### 🔴 4.2 `Backend/firebase-service-account.json`
+### 🔴 `Backend/firebase-service-account.json`
 
 ```
 1.  Firebase Console  →  your project
@@ -507,7 +499,7 @@ dotnet user-secrets set "AI:GeminiApiKey" "your-gemini-key"
 
 ---
 
-### 🟡 4.3 `Frontend/.env`
+### 🟡 `Frontend/.env`
 
 <details open>
 <summary><b>Click to expand the template</b></summary>
@@ -533,7 +525,7 @@ EXPO_PUBLIC_FIREBASE_APP_ID=your_app_id
 
 ---
 
-### 🛡️ 4.4 Confirm `.gitignore` Coverage
+### 🛡️ Confirm `.gitignore` Coverage
 
 Before your first commit, verify that these patterns are ignored in **both** projects:
 
@@ -585,7 +577,7 @@ All endpoints are served under `/api`. Unless noted, every request requires an `
 
 ---
 
-## 👥 Authors & Partnerships
+## 👥 Authors & Partners
 
 <div align="center">
 
@@ -593,20 +585,18 @@ Developed as a final-year graduation project in collaboration with:
 
 <br/>
 
-<p align="center">
-  <a href="https://www.teva.org.il/">
-    <img src="./assets/images/logo.png" alt="SPNI Logo" width="160" height="70" style="object-fit: contain;" />
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://www.ruppin.ac.il/">
-    <img src="./assets/images/Ruppinlogo.jpg" alt="Ruppin Logo" width="160" height="70" style="object-fit: contain;" />
-  </a>
-</p>
+<a href="https://www.teva.org.il/">
+  <img src="./assets/images/logo.png" alt="Society for the Protection of Nature in Israel" height="70" />
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://www.ruppin.ac.il/">
+  <img src="./assets/images/Ruppinlogo.jpg" alt="Ruppin Academic Center" height="70" />
+</a>
 
-<br/>
+<br/><br/>
 
-[![Demo](https://img.shields.io/badge/▶_Watch_the_Demo-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/watch?v=xWfUXMGiqBE)
-[![Poster](https://img.shields.io/badge/📄_Project_Poster-EA4335?style=for-the-badge)](./docs/poster.pdf)
+**Society for the Protection of Nature in Israel** · **החברה להגנת הטבע**
+**Ruppin Academic Center** · **המרכז האקדמי רופין**
 
 </div>
 
